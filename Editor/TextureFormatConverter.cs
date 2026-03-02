@@ -17,14 +17,14 @@ public class TextureFormatConverter : EditorWindow
     // Platform settings
     private bool _applyStandalone;
     private bool _overrideStandalone;
-    private TextureImporterFormat _standaloneFormat = TextureImporterFormat.ASTC_6x6;
+    private TextureImporterFormat _standaloneFormat = TextureImporterFormat.Automatic;
 
     private bool _applyAndroid;
     private bool _overrideAndroid;
+    private TextureImporterFormat _androidFormat = TextureImporterFormat.ASTC_6x6;
 
     private bool _applyIOS;
     private bool _overrideIOS;
-    private TextureImporterFormat _androidFormat = TextureImporterFormat.ASTC_6x6;
     private TextureImporterFormat _iosFormat = TextureImporterFormat.ASTC_6x6;
 
     [MenuItem("Tools/Asset Tools/Texture Format Converter")]
