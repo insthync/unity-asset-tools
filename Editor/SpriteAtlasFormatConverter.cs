@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -226,32 +227,32 @@ public class SpriteAtlasFormatConverter : EditorWindow
                 continue;
 
             string path = AssetDatabase.GetAssetPath(texture);
-            TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            SpriteAtlasImporter importer = AssetImporter.GetAtPath(path) as SpriteAtlasImporter;
             if (importer == null)
                 continue;
 
             if (_applyStandalone)
             {
-                var standaloneSettings = importer.GetPlatformTextureSettings("Standalone");
+                var standaloneSettings = importer.GetPlatformSettings("Standalone");
                 standaloneSettings.overridden = _overrideStandalone;
                 standaloneSettings.format = _standaloneFormat;
-                importer.SetPlatformTextureSettings(standaloneSettings);
+                importer.SetPlatformSettings(standaloneSettings);
             }
 
             if (_applyAndroid)
             {
-                var androidSettings = importer.GetPlatformTextureSettings("Android");
+                var androidSettings = importer.GetPlatformSettings("Android");
                 androidSettings.overridden = _overrideAndroid;
                 androidSettings.format = _androidFormat;
-                importer.SetPlatformTextureSettings(androidSettings);
+                importer.SetPlatformSettings(androidSettings);
             }
 
             if (_applyIOS)
             {
-                var iosSettings = importer.GetPlatformTextureSettings("iPhone");
+                var iosSettings = importer.GetPlatformSettings("iPhone");
                 iosSettings.overridden = _overrideIOS;
                 iosSettings.format = _iosFormat;
-                importer.SetPlatformTextureSettings(iosSettings);
+                importer.SetPlatformSettings(iosSettings);
             }
 
             importer.SaveAndReimport();
