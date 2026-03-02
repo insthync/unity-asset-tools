@@ -220,7 +220,7 @@ public class SpriteAtlasFormatConverter : EditorWindow
     private void ApplySettings()
     {
         string logs = "";
-
+        List<SpriteAtlasImporter> savingImporters = new List<SpriteAtlasImporter>();
         foreach (SpriteAtlas texture in _textureList)
         {
             if (texture == null)
@@ -255,11 +255,16 @@ public class SpriteAtlasFormatConverter : EditorWindow
                 importer.SetPlatformSettings(iosSettings);
             }
 
-            importer.SaveAndReimport();
+            savingImporters.Add(importer);
 
             string log = $"Updated {path}";
             logs += log + "\n";
             Debug.Log(log, texture);
+        }
+
+        foreach (var savingImporter in savingImporters)
+        {
+            savingImporter.SaveAndReimport();
         }
 
         string logFolderPath = Path.Combine(Application.dataPath, "../Logs");

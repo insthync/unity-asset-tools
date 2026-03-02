@@ -218,7 +218,7 @@ public class TextureFormatConverter : EditorWindow
     private void ApplySettings()
     {
         string logs = "";
-
+        List<TextureImporter> savingImporters = new List<TextureImporter>();
         foreach (Texture2D texture in _textureList)
         {
             if (texture == null)
@@ -253,11 +253,16 @@ public class TextureFormatConverter : EditorWindow
                 importer.SetPlatformTextureSettings(iosSettings);
             }
 
-            importer.SaveAndReimport();
+            savingImporters.Add(importer);
 
             string log = $"Updated {path}";
             logs += log + "\n";
             Debug.Log(log, texture);
+        }
+
+        foreach (var savingImporter in savingImporters)
+        {
+            savingImporter.SaveAndReimport();
         }
 
         string logFolderPath = Path.Combine(Application.dataPath, "../Logs");
