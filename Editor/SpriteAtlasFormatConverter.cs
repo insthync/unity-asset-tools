@@ -14,7 +14,7 @@ public class SpriteAtlasFormatConverter : EditorWindow
     private Vector2 _excludeScrollPos;
     private Vector2 _textureScrollPos;
 
-    private string _searchText;
+    private string _searchText = string.Empty;
 
     // Platform settings
     private bool _applyStandalone;
@@ -231,31 +231,49 @@ public class SpriteAtlasFormatConverter : EditorWindow
             if (importer == null)
                 continue;
 
+            bool hasChanges = false;
+
             if (_applyStandalone)
             {
                 var standaloneSettings = importer.GetPlatformSettings("Standalone");
-                standaloneSettings.overridden = _overrideStandalone;
-                standaloneSettings.format = _standaloneFormat;
-                importer.SetPlatformSettings(standaloneSettings);
+                if (standaloneSettings.overridden != _overrideStandalone ||
+                    standaloneSettings.format != _standaloneFormat)
+                {
+                    standaloneSettings.overridden = _overrideStandalone;
+                    standaloneSettings.format = _standaloneFormat;
+                    importer.SetPlatformSettings(standaloneSettings);
+                    hasChanges = true;
+                }
             }
 
             if (_applyAndroid)
             {
                 var androidSettings = importer.GetPlatformSettings("Android");
-                androidSettings.overridden = _overrideAndroid;
-                androidSettings.format = _androidFormat;
-                importer.SetPlatformSettings(androidSettings);
+                if (androidSettings.overridden != _overrideAndroid ||
+                    androidSettings.format != _androidFormat)
+                {
+                    androidSettings.overridden = _overrideAndroid;
+                    androidSettings.format = _androidFormat;
+                    importer.SetPlatformSettings(androidSettings);
+                    hasChanges = true;
+                }
             }
 
             if (_applyIOS)
             {
                 var iosSettings = importer.GetPlatformSettings("iPhone");
-                iosSettings.overridden = _overrideIOS;
-                iosSettings.format = _iosFormat;
-                importer.SetPlatformSettings(iosSettings);
+                if (iosSettings.overridden != _overrideIOS ||
+                    iosSettings.format != _iosFormat)
+                {
+                    iosSettings.overridden = _overrideIOS;
+                    iosSettings.format = _iosFormat;
+                    importer.SetPlatformSettings(iosSettings);
+                    hasChanges = true;
+                }
             }
 
-            savingImporters.Add(importer);
+            if (hasChanges && !savingImporters.Contains(importer))
+                savingImporters.Add(importer);
 
             string log = $"Updated {path}";
             logs += log + "\n";

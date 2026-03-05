@@ -19,7 +19,7 @@ public class MaterialShaderConverter : EditorWindow
     private Vector2 _excludePathScrollPos;
     private Vector2 _materialScrollPos;
     private Vector2 _shaderScrollPos;
-    private string _searchText;
+    private string _searchText = string.Empty;
 
     [MenuItem("Tools/Asset Tools/Material Shader Converter")]
     public static void ShowWindow()

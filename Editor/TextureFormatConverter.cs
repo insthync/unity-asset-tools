@@ -12,7 +12,7 @@ public class TextureFormatConverter : EditorWindow
     private Vector2 _excludeScrollPos;
     private Vector2 _textureScrollPos;
 
-    private string _searchText;
+    private string _searchText = string.Empty;
 
     // Platform settings
     private bool _applyStandalone;
