@@ -229,31 +229,49 @@ public class TextureFormatConverter : EditorWindow
             if (importer == null)
                 continue;
 
+            bool hasChanges = false;
+
             if (_applyStandalone)
             {
                 var standaloneSettings = importer.GetPlatformTextureSettings("Standalone");
-                standaloneSettings.overridden = _overrideStandalone;
-                standaloneSettings.format = _standaloneFormat;
-                importer.SetPlatformTextureSettings(standaloneSettings);
+                if (standaloneSettings.overridden != _overrideStandalone ||
+                    standaloneSettings.format != _standaloneFormat)
+                {
+                    standaloneSettings.overridden = _overrideStandalone;
+                    standaloneSettings.format = _standaloneFormat;
+                    importer.SetPlatformTextureSettings(standaloneSettings);
+                    hasChanges = true;
+                }
             }
 
             if (_applyAndroid)
             {
                 var androidSettings = importer.GetPlatformTextureSettings("Android");
-                androidSettings.overridden = _overrideAndroid;
-                androidSettings.format = _androidFormat;
-                importer.SetPlatformTextureSettings(androidSettings);
+                if (androidSettings.overridden != _overrideAndroid ||
+                    androidSettings.format != _androidFormat)
+                {
+                    androidSettings.overridden = _overrideAndroid;
+                    androidSettings.format = _androidFormat;
+                    importer.SetPlatformTextureSettings(androidSettings);
+                    hasChanges = true;
+                }
             }
 
             if (_applyIOS)
             {
                 var iosSettings = importer.GetPlatformTextureSettings("iPhone");
-                iosSettings.overridden = _overrideIOS;
-                iosSettings.format = _iosFormat;
-                importer.SetPlatformTextureSettings(iosSettings);
+                if (iosSettings.overridden != _overrideIOS ||
+                    iosSettings.format != _iosFormat)
+                {
+                    iosSettings.overridden = _overrideIOS;
+                    iosSettings.format = _iosFormat;
+                    importer.SetPlatformTextureSettings(iosSettings);
+                    hasChanges = true;
+                }
             }
 
-            savingImporters.Add(importer);
+            if (hasChanges && !savingImporters.Contains(importer))
+                savingImporters.Add(importer);
 
             string log = $"Updated {path}";
             logs += log + "\n";
